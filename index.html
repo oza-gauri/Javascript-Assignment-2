@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="author" content="">
+        <!-- mobile settings -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Title will be here</title>
+        <!--Web font css-->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900" rel="stylesheet" type="text/css">
+        <!--Bootstrap CSS-->
+        <link href="assets/css/bootstrap.css" rel="stylesheet">
+        <!--Custom CSS-->
+        <link href="assets/css/master.css" rel="stylesheet">
+        <!--Icon font css-->
+        <link href="assets/css/font-awesome.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="container">
+			<div class="text-center"><h1>Real Estate Inquiry</h1></div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1" >
+                    <form action="#" method="post" >
+						<!--Name section-->
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" class="form-control" id="uname" onfocus="validateName()" placeholder="Enter your name">
+                            <div id="nameError"></div>
+                        </div>
+						<!--Email section-->
+                        <div class="form-group">
+                            <label>E-mail address:</label>
+                            <input type="email" class="form-control" onfocus="validateEmail()" id="email" placeholder="Enter email">
+                            <div id="email_Result"> </div>
+                        </div>
+						<!--Phone number section-->
+                        <div class="form-group">
+                            <label>Phone number:</label>
+                            <input type="tel" class="form-control" onfocus="validatePhone()" id="phone" placeholder="Enter phone number">
+                            <span id="phoneError"></span>
+                        </div>
+						<!--Area of town-->
+                        <div class="form-group">
+                            <label>Area of town:</label>
+                            <input type="text" class="form-control"  onfocus="validateArea()" id="area" placeholder="Enter area">
+                            <span id="areaError"> </span>
+                        </div>
+						<!--Property-->
+                        <div class="form-group">
+                            <label>Property(select one):</label>
+                            <select class="form-control" onchange="validateProperty()" id="property">
+                                <option value="0">select</option>
+                                <option value="1">2BHK </option>
+                                <option value="2">1BHK</option>
+                                <option value="3">BK</option>
+                            </select>
+                            <span id="propertyError"></span>
+                        </div>
+                        <div class="row">
+							<!--Bedrooms-->
+                            <div class="col-md-6" >
+                                <div class="form-group">
+                                    <label for="text">Bedrooms:</label>
+                                    <input type="text" class="form-control" onfocus="roomValidationFunction()" id="exampleInputBedrooms" placeholder="No of bedrooms">
+                                    <span id="bedroomsError"></span>
+                                </div>
+                            </div>
+							<!--Price section-->
+                            <div class="col-md-6" >
+                                <div class="form-group">
+                                    <label for="text">Maximum price:</label>
+                                    <input type="text" class="form-control" id="exampleInputPrice" onfocus="priceValidationFunction()" placeholder="Maximum price:">
+                                    <span id="priceError"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group radio-button">
+							<label>How would we contact you?</label>
+								<p id="validContact"></p>
+									<input type="radio" name="inputContact" id="inputCallMe" onclick="validateContact();">
+									<label>Call Me</label>
+									<input type="radio" name="inputContact" id="inputEmailMe" onclick="validateContact();">
+									<label>E-Mail Me</label>
+						</div>
+                        <button type="submit" onclick="return formValidate()" class="btn btn-lg btn-success pull-right">Submit</button>
+                    </form>
+                </div>
+            </div>
+			<div class="row">
+				<table class="table table-hover" id="demo"></table>
+			</div>
+        </div>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.js"></script>
+        <script  type="text/javascript">
+			<!-- fuction for name validation -->
+			function validateName(){
+				var uname = document.getElementById("uname").value;
+				var letters =  /^[a-zA-Z\s-, ]+$/;
+				if(uname.match(letters))
+				{
+					document.getElementById("nameError").innerHTML=' ' ;
+					return true;
+				}
+				else{
+					document.getElementById("nameError").innerHTML='Invalid Name' ;
+					document.getElementById("nameError").style.color="red";
+					return false;
+				}
+			} 
+			
+			<!-- fuction for Email-validation-->
+		
+			function validateEmail()  
+			{  
+				var useremail=document.getElementById("email").value;
+				var atposition=useremail.indexOf("@");  
+				var dotposition=useremail.lastIndexOf(".");  
+				if(useremail==null || useremail=="")
+				{  
+					document.getElementById("email_Result").innerHTML = 'email can not be blank'; 
+					document.getElementById("email_Result").style.color='red';
+					return false;  
+				}
+				else if (atposition<1 || dotposition<atposition+2 || dotposition+2>=useremail.length){ 
+					document.getElementById("email_Result").innerHTML='Invalid E-Mail';
+					document.getElementById("email_Result").style.color="red";
+					return false;  
+				  }
+				else{
+					document.getElementById("email_Result").innerHTML=' ';
+					return true;
+				}  
+			}  
+			<!-- fuction for phone validation-->
+			function validatePhone(){
+				var phone = document.getElementById("phone").value;
+				var phonecheck = /^\d{10}$/;
+				if(phone==null || phone==""){
+					document.getElementById("phoneError").style.color="red";
+					document.getElementById("phoneError").innerHTML='Phone Number should not blank' ;
+					return false;
+				}
+				else if(phone.match(phonecheck)){
+					document.getElementById("phoneError").innerHTML=' ' ;
+					return true;
+				} 
+				else{
+					document.getElementById("phoneError").style.color="red";
+					document.getElementById("phoneError").innerHTML='Invalid Phone Number' ;
+					return false;
+				}
+			  }  
+			  
+			<!-- fuction for Area of town-->
+			function validateArea(){
+		
+				var area= document.getElementById("area").value;
+				if(area==null || area==""){
+					document.getElementById("areaError").style.color="red";
+					document.getElementById("areaError").innerHTML='Area should not be blank';
+					return false;
+				}
+				else{
+					document.getElementById("areaError").innerHTML='' ;
+					return true;
+				}
+			}  
+		
+			<!-- fuction for Property-name-->
+			function validateProperty()
+			{
+			 var propertyValue=document.getElementById("property").value;
+		
+			 if(propertyValue =="0")
+				{
+					document.getElementById("propertyError").style.color="red";
+					document.getElementById("propertyError").innerHTML='please select any one value';
+					return false;
+				}
+				else{
+					document.getElementById("propertyError").innerHTML='';
+					return true;
+				}
+			}
+			<!--fuction for Room validation-->
+			function roomValidationFunction()
+			{
+				var bedrooms = document.getElementById("exampleInputBedrooms").value; 
+				if (bedrooms > 0 && bedrooms < 4) {
+					document.getElementById("bedroomsError").innerHTML='';
+					return true;
+				}
+				else {
+				document.getElementById("bedroomsError").style.color = "red";
+				document.getElementById("bedroomsError").innerHTML='enter between 1-3'; 
+				return false;
+				}
+			}
+			<!--fuction for Price validation-->
+			function priceValidationFunction()
+			{
+				var price = document.getElementById("exampleInputPrice").value; 
+				if (price > 0) {
+				document.getElementById("priceError").innerHTML='';
+				return true;
+				}
+				else {
+					document.getElementById("priceError").style.color = "red";
+					document.getElementById("priceError").innerHTML='Invalid input'; 
+					return false;
+				}
+			}
+			
+			<!--function for Radio button-->
+			
+			function validateContact()
+		{
+			var callMe = document.getElementById("inputCallMe");
+			var emailMe = document.getElementById("inputEmailMe");
+			if((callMe.checked == false) && (emailMe.checked == false))
+			{
+				document.getElementById("validContact").style.color = "Red";
+				document.getElementById("validContact").innerHTML = "Contact type is Invalid";
+				return false;
+			}
+			else 
+			{
+				document.getElementById("validContact").style.color = "Green";
+				document.getElementById("validContact").innerHTML = "Valid Contact type"; 
+				return true;
+			}
+		}
+			<!--fuction for Submit Button validation-->
+			function formValidate()
+			{
+			var isNameValid = validateName();
+			var isMailValid = validateEmail();
+			var isPhoneValid = validatePhone();
+			var isAreaValid = validateArea();
+			var isPropertyValid = validateProperty();
+			var isRoomValid = roomValidationFunction();
+			var isPriceValid = priceValidationFunction();
+			var isRadiovalid = validateContact();
+			 if(isNameValid == false){
+			  uname.focus();
+			  return false;
+			 }
+			 if(isMailValid==false){
+			  email.focus();
+			  return false;
+			 }
+			 if(isPhoneValid==false){
+			  phone.focus();
+			  return false;
+			 }
+			 if(isPropertyValid==false){
+			  property.focus();
+			  return false;
+			 }
+			 if(isAreaValid==false){
+			  area.focus();
+			  return false;
+			 }
+			 if(isRoomValid==false){
+			  exampleInputBedrooms.focus();
+			  return false;
+			 }
+			 if(isPriceValid==false){
+			  exampleInputPrice.focus();
+			  return false;
+			 }
+			 if(isRadiovalid == false){
+				alert("select any one")
+				return false;
+			 }
+			 
+				 alert("Form validated successfully");
+				 return true;
+			 
+			}	         
+		</script>
+    </body>
+</html>
+
